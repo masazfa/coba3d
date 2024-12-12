@@ -3,6 +3,9 @@
 <head>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/geotiff@1.0.0-beta.6/dist/geotiff.bundle.min.js"></script>
+  <script src="https://unpkg.com/cesium-geotiff@1.0.0/dist/cesium-geotiff.min.js"></script>
 </head>
 <body>
   <style>
@@ -130,6 +133,82 @@ function handleSearch() {
     // Add event listener to the search input
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     
+
+
+    
+
+//             // URL GeoJSON Cara dari Data Lokal
+//             const geoJsonUrl = '<?php echo base_url(); ?>coba/2d.geojson';
+
+// // Memuat dan menampilkan GeoJSON dengan warna merah dan menempel pada terrain
+// Cesium.GeoJsonDataSource.load(geoJsonUrl, {
+//     clampToGround: true, // Menempel pada terrain
+//     stroke: Cesium.Color.RED,
+//     fill: Cesium.Color.RED.withAlpha(0.5), // Warna merah dengan transparansi 50%
+//     strokeWidth: 3
+// }).then(function(dataSource) {
+//     viewer.dataSources.add(dataSource);
+//     viewer.zoomTo(dataSource);
+
+//     // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
+//     viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+//         const pickedFeature = viewer.scene.pick(movement.position);
+//         if (Cesium.defined(pickedFeature) && pickedFeature.id) {
+//             const properties = pickedFeature.id.properties;
+//             const content = `
+//                 <table class="cesium-infoBox-defaultTable">
+//                     <tr><th>DSM</th><td>${properties.dsm}</td></tr>
+//                     <tr><th>DTM</th><td>${properties.dtm}</td></tr>
+//                     <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
+//                     <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
+//                     <tr><th>Luas</th><td>${properties.luas}</td></tr>
+//                 </table>
+//             `;
+//             viewer.selectedEntity = new Cesium.Entity({
+//                 name: 'Informasi Detail',
+//                 description: content
+//             });
+//         }
+//     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+// }).catch(function(error) {
+//     console.error('Error loading GeoJSON:', error);
+// });
+
+
+ // Memuat GeoJSON dari Cesium Ion dan menempelkannya ke terrain
+ const resource = await Cesium.IonResource.fromAssetId(2920415);
+            const dataSource = await Cesium.GeoJsonDataSource.load(resource, {
+                clampToGround: true // Menempelkan data ke terrain
+            });
+
+            viewer.dataSources.add(dataSource);
+
+            // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
+            viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+                const pickedFeature = viewer.scene.pick(movement.position);
+                if (Cesium.defined(pickedFeature) && pickedFeature.id) {
+                    const properties = pickedFeature.id.properties;
+                    const content = `
+                        <table class="cesium-infoBox-defaultTable">
+                            <tr><th>DSM</th><td>${properties.dsm}</td></tr>
+                            <tr><th>DTM</th><td>${properties.dtm}</td></tr>
+                            <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
+                            <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
+                            <tr><th>Luas</th><td>${properties.luas}</td></tr>
+                        </table>
+                    `;
+                    viewer.selectedEntity = new Cesium.Entity({
+                        name: 'Informasi Detail',
+                        description: content
+                    });
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+
+const layer = viewer.imageryLayers.addImageryProvider(
+  await Cesium.IonImageryProvider.fromAssetId(2920417),
+);
+
     </script>
 </body>
 </html>
