@@ -19,8 +19,8 @@
   </style>
   <div id="searchContainer" style="position: absolute; top: 10px; left: 10px; z-index: 1;">
     <input type="text" id="searchInput" placeholder="Search 3D data..." style="width: 200px; padding: 5px;">
-    <div id="searchResults" style="max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; display: none;">
-        <ul id="resultsList" style="list-style: none; padding: 0; margin: 0;"></ul>
+    <!-- <div id="searchResults" style="max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; display: none;">
+        <ul id="resultsList" style="list-style: none; padding: 0; margin: 0;"></ul> -->
     </div>
 </div>
 
@@ -127,79 +127,78 @@ function handleSearch() {
         }
     }
 
-    // Add event listener to the search input
+//     // Add event listener to the search input
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     
 
 
     
 
-            // URL GeoJSON Cara dari Data Lokal
-            const geoJsonUrl = '<?php echo base_url(); ?>coba/2d.geojson';
+//             // URL GeoJSON Cara dari Data Lokal
+//             const geoJsonUrl = '<?php echo base_url(); ?>coba/2d.geojson';
 
-// Memuat dan menampilkan GeoJSON dengan warna merah dan menempel pada terrain
-Cesium.GeoJsonDataSource.load(geoJsonUrl, {
-    clampToGround: true, // Menempel pada terrain
-    stroke: Cesium.Color.RED,
-    fill: Cesium.Color.RED.withAlpha(0.5), // Warna merah dengan transparansi 50%
-    strokeWidth: 3
-}).then(function(dataSource) {
-    viewer.dataSources.add(dataSource);
-    viewer.zoomTo(dataSource);
+// // Memuat dan menampilkan GeoJSON dengan warna merah dan menempel pada terrain
+// Cesium.GeoJsonDataSource.load(geoJsonUrl, {
+//     clampToGround: true, // Menempel pada terrain
+//     stroke: Cesium.Color.RED,
+//     fill: Cesium.Color.RED.withAlpha(0.5), // Warna merah dengan transparansi 50%
+//     strokeWidth: 3
+// }).then(function(dataSource) {
+//     viewer.dataSources.add(dataSource);
 
-    // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
-    viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
-        const pickedFeature = viewer.scene.pick(movement.position);
-        if (Cesium.defined(pickedFeature) && pickedFeature.id) {
-            const properties = pickedFeature.id.properties;
-            const content = `
-                <table class="cesium-infoBox-defaultTable">
-                    <tr><th>DSM</th><td>${properties.dsm}</td></tr>
-                    <tr><th>DTM</th><td>${properties.dtm}</td></tr>
-                    <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
-                    <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
-                    <tr><th>Luas</th><td>${properties.luas}</td></tr>
-                </table>
-            `;
-            viewer.selectedEntity = new Cesium.Entity({
-                name: 'Informasi Detail',
-                description: content
-            });
-        }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-}).catch(function(error) {
-    console.error('Error loading GeoJSON:', error);
-});
-
-
-//  // Memuat GeoJSON dari Cesium Ion dan menempelkannya ke terrain
-//  const resource = await Cesium.IonResource.fromAssetId(2920415);
-//             const dataSource = await Cesium.GeoJsonDataSource.load(resource, {
-//                 clampToGround: true // Menempelkan data ke terrain
+//     // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
+//     viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+//         const pickedFeature = viewer.scene.pick(movement.position);
+//         if (Cesium.defined(pickedFeature) && pickedFeature.id) {
+//             const properties = pickedFeature.id.properties;
+//             const content = `
+//                 <table class="cesium-infoBox-defaultTable">
+//                     <tr><th>DSM</th><td>${properties.dsm}</td></tr>
+//                     <tr><th>DTM</th><td>${properties.dtm}</td></tr>
+//                     <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
+//                     <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
+//                     <tr><th>Luas</th><td>${properties.luas}</td></tr>
+//                 </table>
+//             `;
+//             viewer.selectedEntity = new Cesium.Entity({
+//                 name: 'Informasi Detail',
+//                 description: content
 //             });
+//         }
+//     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+// }).catch(function(error) {
+//     console.error('Error loading GeoJSON:', error);
+// });
 
-//             viewer.dataSources.add(dataSource);
 
-//             // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
-//             viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
-//                 const pickedFeature = viewer.scene.pick(movement.position);
-//                 if (Cesium.defined(pickedFeature) && pickedFeature.id) {
-//                     const properties = pickedFeature.id.properties;
-//                     const content = `
-//                         <table class="cesium-infoBox-defaultTable">
-//                             <tr><th>DSM</th><td>${properties.dsm}</td></tr>
-//                             <tr><th>DTM</th><td>${properties.dtm}</td></tr>
-//                             <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
-//                             <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
-//                             <tr><th>Luas</th><td>${properties.luas}</td></tr>
-//                         </table>
-//                     `;
-//                     viewer.selectedEntity = new Cesium.Entity({
-//                         name: 'Informasi Detail',
-//                         description: content
-//                     });
-//                 }
-//             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+ // Memuat GeoJSON dari Cesium Ion dan menempelkannya ke terrain
+ const resource = await Cesium.IonResource.fromAssetId(2920415);
+            const dataSource = await Cesium.GeoJsonDataSource.load(resource, {
+                clampToGround: true // Menempelkan data ke terrain
+            });
+
+            viewer.dataSources.add(dataSource);
+
+            // Menambahkan event listener untuk menampilkan popup menggunakan InfoBox
+            viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+                const pickedFeature = viewer.scene.pick(movement.position);
+                if (Cesium.defined(pickedFeature) && pickedFeature.id) {
+                    const properties = pickedFeature.id.properties;
+                    const content = `
+                        <table class="cesium-infoBox-defaultTable">
+                            <tr><th>DSM</th><td>${properties.dsm}</td></tr>
+                            <tr><th>DTM</th><td>${properties.dtm}</td></tr>
+                            <tr><th>Tinggi FAS</th><td>${properties.tinggi_fas}</td></tr>
+                            <tr><th>Tinggi ATP</th><td>${properties.tinggi_atp}</td></tr>
+                            <tr><th>Luas</th><td>${properties.luas}</td></tr>
+                        </table>
+                    `;
+                    viewer.selectedEntity = new Cesium.Entity({
+                        name: 'Informasi Detail',
+                        description: content
+                    });
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
 
 const layer = viewer.imageryLayers.addImageryProvider(
